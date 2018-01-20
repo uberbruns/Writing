@@ -19,7 +19,7 @@ class ThingController {
 
 ```
 
-I cannot overstate how often this unspectacular pattern declutters code like a lot and makes it a hundred times easier to understand: Just make it a required argument of your init function. Additional being a `let` the lifecycle of `thing` is now more clear.
+I cannot overstate how often this unspectacular pattern declutters code and makes it easier to understand: Just make the property a required argument of your init function. Additional being a `let` the lifecycle of `thing` is now more clear: It is set once, it is always available and it won't change over the lifecylce of the instance.
 
 ```swift
 class ThingController {
@@ -37,7 +37,7 @@ class ThingController {
 
 ```
 
-Sometimes a property needs to be `private` and initiating it may fail. Even in this case you should consider making it the responsibility of the caller to handle the case that the type (in this case `ThingController`) she created cannot work properly
+Sometimes a property needs to be `private` and initiating it may fail. Even in this case you may consider making it the responsibility of the caller to handle the case that the type (in this case `ThingController`) that was created cannot work properly.
 
 ```swift
 class ThingController {
@@ -71,7 +71,7 @@ class ThingController {
 
 ```
 
-... or make the initializer of the type you rely on throw an error an relay it to your caller.
+... or make the initializer of the type you rely on throw an error and relay it to your caller.
 
 ```swift
 class ThingController {
@@ -88,7 +88,7 @@ class ThingController {
 
 ## Second solution: Be lazy
 
-Often you use Optionals (T?) or Implicitly Unwrapped Optionals (T!) to work around the fact that you need `self` to create an instance, but you cannot access `self`, because it's not fully initialized itself yet.
+Often you use Optionals (T?) or Implicitly Unwrapped Optionals (T!) to work around the fact that you need `self` to create the instance, but you cannot access `self`, because it's not fully initialized itself yet.
 
 In this case your code may look like that:
 
@@ -105,7 +105,7 @@ class APIManager: NSObject, URLSessionDelegate {
 }
 ```
 
-By being lazy `session` will be instantiated later when you are first accessing it. At this point `self` will be there for you:
+By being lazy `session` will be instantiated "later" when you are first accessing it. At this point `self` will be there for you:
 
 
 ```swift
@@ -144,7 +144,7 @@ class ThingController {
 }
 ```
 
-Of course you could use solution 2, but you could also take a hard look at the function you are calling. Maybe you can refactor it into a `static` or `class` function, because it can work independently from the instance you are creating. If not, maybe it is relying on a property you may already have in your init function? Pass it as an argument :)
+You could use solution 2, but it maybe worth it taking a hard look at the function you are calling. Maybe you can refactor it into a `static` or `class` function, because it can work independently from the instance you are creating. If not, maybe it is relying on a property you may already have in your init function? Pass it as an argument :)
 
 
 ```swift
@@ -165,4 +165,4 @@ class ThingController {
 
 ## This is it
 
-With that being said, there are many cases where optional properties are really useful and having them is not inherently bad. Like always it depends and the goal of the article is solely to give you another option to consider. Happy coding!
+With that being said, there are many cases where optional properties are useful and having them is not inherently bad. Like always it depends and the goal of the article is solely to give you other options to consider. Happy coding!
