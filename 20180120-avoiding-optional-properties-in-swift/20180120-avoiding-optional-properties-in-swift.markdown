@@ -39,7 +39,7 @@ class ThingController {
 
 ```
 
-Sometimes a property needs to be `private` and initiating it may fail. Even in this case you may consider making it the responsibility of the caller to handle the case that the type (in this case `ThingController`) that was created cannot work properly.
+Sometimes a property needs to be `private` and initiating it may fail. Even in this case you may consider making it the responsibility of the caller to handle the case that the type (in this case `ThingController`)cannot be created properly.
 
 ```swift
 class ThingController {
@@ -90,7 +90,7 @@ class ThingController {
 
 ## Second solution: Be lazy
 
-Often you use Optionals (T?) or Implicitly Unwrapped Optionals (T!) to work around the fact that you need `self` to create the instance, but you cannot access `self`, because it's not fully initialized itself yet.
+Often you use Optionals (T?) or Implicitly Unwrapped Optionals (T!) to work around the fact that you need `self` to create a property, but you cannot access `self`, because it's not fully initialized itself yet.
 
 In this case your code may look like that:
 
@@ -107,7 +107,7 @@ class APIManager: NSObject, URLSessionDelegate {
 }
 ```
 
-By being lazy `session` will be instantiated "later" when you are first accessing it. At this point `self` will be there for you:
+By being lazy `session` will be instantiated when you are first accessing it. At this point `self` will be there for you:
 
 
 ```swift
@@ -146,7 +146,7 @@ class ThingController {
 }
 ```
 
-You could use solution 2, but it maybe worth it taking a hard look at the function you are calling. Maybe you can refactor it into a `static` or `class` function, because it can work independently from the instance you are creating. If not, maybe it is relying on a property you may already have in your init function? Pass it as an argument :)
+You could use solution 2, but it maybe worth to take a hard look at the function you are calling. Maybe you can refactor it into a `static` or `class` function that can work independently from the instance you are building. If not, maybe it is relying on a property you may already have in your init function? Pass it as an argument :)
 
 
 ```swift
