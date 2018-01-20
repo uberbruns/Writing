@@ -2,37 +2,39 @@
 
 ## First solution: Relay responsibility to the caller
 
-I bet you all have seen code like this. The owner of this instance is expected to set `thing` at some point of time, but when you look at `ThingController` you have no idea how important `thing` is to this class, how often it is expected to change, if it is expected to go away and so on. The complete lifecycle is a blackbox.
+I bet you all have seen code like this. The owner of this instance is expected to set `thing` at some point of time, but when you look at `ThingController` you have no idea how important `thing` is to this class, how often it is expected to change, if it is expected to go away and so on. The complete lifecycle is in control of outside forces.
 
 ```swift
 class ThingController {
 
-	var thing: Thing?
+    var thing: Thing?
 
-	init() { }
+    init() { }
 
-	func doSomething() {
-		guard if let thing = thing else { return }
-		thing.doIt()
-	}
+    func doSomething() {
+        guard if let thing = thing else { return }
+        thing.doIt()
+    }
 }
 
 ```
 
 I cannot overstate how often this unspectacular pattern declutters code and makes it easier to understand: Just make the property a required argument of your init function. Additional being a `let` the lifecycle of `thing` is now more clear: It is set once, it is always available and it won't change over the lifecylce of the instance.
 
+As a bonus you can now delete all the `guard`, `if let` statements and question marks from your file.
+
 ```swift
 class ThingController {
 
-	let thing: Thing
+    let thing: Thing
 
-	init(thing: Thing) {
-		self.thing = thing
-	}
+    init(thing: Thing) {
+        self.thing = thing
+    }
 
-	func doSomething() {
-		thing.doIt()
-	}
+    func doSomething() {
+        thing.doIt()
+    }
 }
 
 ```
@@ -42,12 +44,12 @@ Sometimes a property needs to be `private` and initiating it may fail. Even in t
 ```swift
 class ThingController {
 
-	private let thing: Thing
+    private let thing: Thing
 
-	init?(value: Value) {
-		guard let thing = Thing(value: value) else { return nil }
-		self.thing = thing
-	}
+    init?(value: Value) {
+        guard let thing = Thing(value: value) else { return nil }
+        self.thing = thing
+    }
 }
 
 ```
@@ -57,16 +59,16 @@ A fail-able initializer is not your only option. Make your instances throw an er
 ```swift
 class ThingController {
 
-	enum Error: Swift.Error {
-		case invalidValue
-	}
+    enum Error: Swift.Error {
+        case invalidValue
+    }
 
-	private let thing: Thing
+    private let thing: Thing
 
-	init(value: Value) throws {
-		guard let thing = Thing(value: value) else { throws Error.invalidValue }
-		self.thing = thing
-	}
+    init(value: Value) throws {
+        guard let thing = Thing(value: value) else { throws Error.invalidValue }
+        self.thing = thing
+    }
 }
 
 ```
@@ -76,11 +78,11 @@ class ThingController {
 ```swift
 class ThingController {
 
-	private let thing: Thing
+    private let thing: Thing
 
-	init(value: Value) throws {
-		self.thing = try Thing(value: value)
-	}
+    init(value: Value) throws {
+        self.thing = try Thing(value: value)
+    }
 }
 
 ```
