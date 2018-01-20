@@ -19,7 +19,7 @@ class ThingController {
 
 ```
 
-I cannot overstate how often this unspectacular pattern declutters code and makes it easier to understand: Just make the property a required argument of your init function. Additional being a `let` the lifecycle of `thing` is now more clear: It is set once, it is always available and it won't change over the lifecylce of the instance.
+I cannot overstate how often the following unspectacular pattern declutters code and makes it easier to understand: Just make the property a required argument of your init function. Additional being a `let` the lifecycle of `thing` is now more clear: It is set once, it is always available and it won't change over the lifecylce of the instance.
 
 As a bonus you can now delete all the `guard`, `if let` statements and question marks from your file.
 
