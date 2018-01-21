@@ -1,6 +1,8 @@
 # Unwrapping nested Optionals
 
-Consider you want to unwrap a type with a signature of `Bool??`. To end up with a nested optional, you might had a function `doSomething() throws -> Bool?` and you assign the result to variable `x` by using `try?`.
+## Starting position
+
+Consider you want to unwrap a type with a signature of `Bool??`. You end up with this kind a nested optional, when you, for example, had a function like `doSomething() throws -> Bool?` and you assign the result to variable `x` by using `try?`.
 
 
 ```swift
@@ -13,9 +15,7 @@ let x = try? doSomething()
 // x is now of type Bool??
 ```
 
-But how you got there is not what these notes are about. Its about how you unwrap the nested optionals, without writing too much unnecessary code.
-
-So, the obvious approach might be to unwrap `x` twice:
+But how you got there is not what these notes are about. Its about how you unwrap nested optionals, without writing too much unnecessary code. So, the obvious approach might be to unwrap `x` twice:
 
 ```swift
 if let optionalX = x, let unwrappedX = optionalX {
@@ -24,7 +24,11 @@ if let optionalX = x, let unwrappedX = optionalX {
 
 ```
 
-But there is a more direct and less verbose way using pattern matching. First, you have to know that pattern matching is not something that only works with `switch`. Using `if case` or `guard case` you can use it with `if` and `guard`, too. In the case of `if case` unwrapping nested optionals works like in this example:
+But you might find this super verbose and you're thinking, that there has to be a better way.
+
+## The solution
+
+But there is a more direct and less verbose way using pattern matching. First, you have to know that pattern matching is not something that only works with `switch`. Using `if case` or `guard case` you can use it with `if` and `guard`, too. In the case of `if case` unwrapping nested optionals will work like this:
 
 
 ```swift
@@ -34,7 +38,9 @@ if case let unwrappedX?? = x {
 
 ```
 
-Now you might ask, how this works? Well, Optionals are nothing but Enums with the two cases: `.some(T)` and `.none`. So pattern matching `anOptional`, to match the `.some(T)` case would look like this:
+## Why does this work?
+
+Now you might ask how this works? Well, Optionals are nothing but Enums with two cases: `.some(T)` and `.none`. So pattern matching `anOptional`, to match the `.some(T)` case would look like this:
 
 ```swift
 if case .some(let wrapped) = anOptional {
@@ -43,7 +49,7 @@ if case .some(let wrapped) = anOptional {
 
 ```
 
-Since you can nest pattern, this is how unwrapping in our example works, if we would use the verbose syntax.
+Since you can nest patterns, this is how unwrapping in our example works, if we would use the more verbose syntax.
 
 ```swift
 if case .some(.some(let unwrappedX)) = x {
