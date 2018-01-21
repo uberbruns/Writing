@@ -15,7 +15,7 @@ let x = try? doSomething()
 // x is now of type Bool??
 ```
 
-But how you got there is not what these notes are about. Its about how you unwrap nested optionals, without writing too much unnecessary code. So, the obvious approach might be to unwrap `x` twice:
+But how you got there is not what these notes are about. They are about how you unwrap these nested optionals, without writing too much unnecessary code. So, the obvious approach might be to unwrap `x` twice:
 
 ```swift
 if let optionalX = x, let unwrappedX = optionalX {
@@ -24,11 +24,11 @@ if let optionalX = x, let unwrappedX = optionalX {
 
 ```
 
-But you might find this super verbose and you're thinking, that there has to be a better way.
+But you this is very verbose and you end up defining a variable you do not need. Now you propably think, that there has to be a better way and you are right.
 
 ## The solution
 
-But there is a more direct and less verbose way using pattern matching. First, you have to know that pattern matching is not something that only works with `switch`. Using `if case` or `guard case` you can use it with `if` and `guard`, too. In the case of `if case` unwrapping nested optionals will work like this:
+But there is a more direct and less verbose way using pattern matching. First, you have to know that pattern matching is not something that only works with `switch`. Using `if case` or `guard case` you can match pattern with regular `if` or `guard` statements. In the case of `if case` unwrapping nested optionals will work like this:
 
 
 ```swift
@@ -40,7 +40,7 @@ if case let unwrappedX?? = x {
 
 ## Why does this work?
 
-Now you might ask how this works? Well, Optionals are nothing but Enums with two cases: `.some(T)` and `.none`. So pattern matching `anOptional`, to match the `.some(T)` case would look like this:
+Now you might ask how this works? Well, Under the hood Optionals are Enums with two cases: `.some(T)` and `.none`. So to setup pattern matching of `anOptional`, to match the `.some(T)` case and read the value of that case, you write code that looks something like this:
 
 ```swift
 if case .some(let wrapped) = anOptional {
@@ -49,7 +49,7 @@ if case .some(let wrapped) = anOptional {
 
 ```
 
-Since you can nest patterns, this is how unwrapping in our example works, if we would use the more verbose syntax.
+Since you can nest patterns, this is how unwrapping would work, if we would use the more verbose syntax for our example o top.
 
 ```swift
 if case .some(.some(let unwrappedX)) = x {
