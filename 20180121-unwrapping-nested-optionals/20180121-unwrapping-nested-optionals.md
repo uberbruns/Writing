@@ -2,7 +2,7 @@
 
 ## Starting position
 
-Consider you want to unwrap a type with a signature of `Bool??`. You end up with this kind a nested optional, when you, for example, had a function like `doSomething() throws -> Bool?` and you assign the result to variable `x` by using `try?`.
+Consider you want to unwrap a type with a signature of `Bool??`. For example, you cam end up with a nested optional, when you had a function like `doSomething() throws -> Bool?` and you assign the result to variable `x` by using `try?`.
 
 
 ```swift
@@ -24,11 +24,11 @@ if let optionalX = x, let unwrappedX = optionalX {
 
 ```
 
-But you this is very verbose and you end up defining a variable you do not need. Now you propably think, that there has to be a better way and you are right.
+But this is very verbose and you end up defining a variable you don't need. Now you propably think, that there has to be a better way and you're right.
 
 ## The solution
 
-But there is a more direct and less verbose way using pattern matching. First, you have to know that pattern matching is not something that only works with `switch`. Using `if case` or `guard case` you can match pattern with regular `if` or `guard` statements. In the case of `if case` unwrapping nested optionals will work like this:
+But there is a more direct and less verbose way by using pattern matching. First, you have to know that pattern matching is not something that only works with `switch` clauses. Using `if case` or `guard case` you can match patterns in `if` or `guard` statements, too. In the case of `if case` unwrapping a nested Optional works like this:
 
 
 ```swift
